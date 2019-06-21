@@ -25,3 +25,7 @@
 .big-name {
   background-color: green;
 }
+
+.portfolio-list:hover {
+  color: gray;
+}
