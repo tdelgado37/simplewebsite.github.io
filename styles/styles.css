@@ -27,5 +27,6 @@
 }
 
 .portfolio-list:hover {
-  color: red;
+  background-color: #111;
+  color:white;
 }
