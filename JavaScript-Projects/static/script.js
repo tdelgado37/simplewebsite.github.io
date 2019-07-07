@@ -20,3 +20,78 @@ function generateCats() {
   div.appendChild(image);
 
 }
+
+function rpsGame(yourChoice) {
+  var humanChoice, botChoice;
+  humanChoice = yourChoice.id;
+  botChoice = choose();
+
+  var winner = decide(humanChoice, botChoice);
+
+  finMessage = finalMessage(winner);
+
+  rpsFrontEnd(yourChoice.id, botChoice, finMessage);
+}
+
+ function choose() {
+   var num = Math.floor(Math.random() * 3) + 1;
+   var choose;
+   if (num == 1) {
+     choose = 'rock';
+   } else if (num == 2) {
+     choose = 'paper';
+   } else {
+     choose = 'scissors';
+   }
+   return choose;
+ }
+
+ function decide(humanChoice, botChoice){
+   let result = (humanChoice == 'rock' && botChoice == 'scissors') ? 'human' :
+     (humanChoice == 'paper' && botChoice == 'rock') ? 'human' :
+     (humanChoice == 'scissors' && botChoice == 'paper') ? 'human' :
+     (humanChoice == 'scissors' && botChoice == 'rock') ? 'bot' :
+     (humanChoice == 'rock' && botChoice == 'paper') ? 'bot' :
+     (humanChoice == 'paper' && botChoice == 'scissors') ? 'bot' :
+     'tie';
+   return result;
+ }
+
+ function finalMessage(winner) {
+   var mes = (winner == 'bot') ? 'You lost!' :
+     (winner == 'human') ? 'You won!' :
+     'You tied!';
+   var color_result = (winner == 'bot') ? 'red' :
+       (winner == 'human') ? 'green' :
+       'gray';
+   var final_mes = {
+     'message': mes,
+     'color': color_result,
+   };
+   return final_mes;
+ }
+
+function rpsFrontEnd(humanImagePick, botImagePick, finalMes) {
+  var imagesDB = {
+    'rock': document.getElementById('rock').src,
+    'paper': document.getElementById('paper').src,
+    'scissors': document.getElementById('scissors').src,
+  };
+
+  //remove all images from rps
+  document.getElementById('rock').remove();
+  document.getElementById('paper').remove();
+  document.getElementById('scissors').remove();
+
+  var humanDiv = document.createElement('div');
+  var botDiv = document.createElement('div');
+  var mesDiv = document.createElement('div');
+
+  humanDiv.innerHTML = "<img src='" + imagesDB[humanImagePick] +"' height = 150 width = 150 style='box-shadow: 0px 30px 50px rgba(37, 50, 233, 1);'>";
+  mesDiv.innerHTML = "<h1 style='color: " + finalMes['color'] + "; font-size: 60px; padding: 30px'>" + finalMes['message'] + "</h1>";
+  botDiv.innerHTML = "<img src='" + imagesDB[botImagePick] +"' height = 150 width = 150 style='box-shadow: 0px 30px 50px rgba(243, 38, 24, 1);'>";
+  document.getElementById('flex-box-rps').appendChild(humanDiv);
+  document.getElementById('flex-box-rps').appendChild(mesDiv);
+  document.getElementById('flex-box-rps').appendChild(botDiv);
+
+}
