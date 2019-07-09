@@ -101,7 +101,7 @@ var copyAllButtons = [];
 for (let i=0; i< all_buttons.length; i++){
   copyAllButtons.push(all_buttons[i].classList[1]);
 }
-console.log(copyAllButtons);
+
 function buttonColorChange(buttonColor){
   if(buttonColor.value == 'red'){
     buttonsRed();
