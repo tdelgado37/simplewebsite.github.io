@@ -5,7 +5,7 @@
   text-align: center;
 }
 
-.flex-box-container-1, .flex-box-container-2, .flex-box-container-3, flex-box-pick-color{
+.flex-box-container-1, .flex-box-container-2, .flex-box-container-3, .flex-box-pick-color{
   border: 1px solid black;
   display: flex;
   padding: 10px;
