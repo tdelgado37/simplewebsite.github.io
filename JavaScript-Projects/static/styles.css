@@ -1,11 +1,11 @@
-.container-1,.container-2,.container-3,.container-4 {
+.container-1,.container-2,.container-3,.container-4, .container-5{
   border: 1px solid black;
   margin: 0 auto;
   width: 75%;
   text-align: center;
 }
 
-.flex-box-container-1, .flex-box-container-2, .flex-box-container-3, .flex-box-pick-color{
+.flex-box-container-1, .flex-box-container-2, .flex-box-container-3, .flex-box-pick-color, .flex-box-blackjack{
   border: 1px solid black;
   display: flex;
   padding: 10px;
