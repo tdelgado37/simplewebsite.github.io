@@ -13,6 +13,7 @@ function reset() {
   document.getElementById('ageInDays').remove();
 }
 
+//Generate Cats
 function generateCats() {
   var image = document.createElement('img');
   var div = document.getElementById('flex-box-cat');
@@ -21,6 +22,7 @@ function generateCats() {
 
 }
 
+//Rock Paper Scissors
 function rpsGame(yourChoice) {
   var humanChoice, botChoice;
   humanChoice = yourChoice.id;
@@ -96,6 +98,7 @@ function rpsFrontEnd(humanImagePick, botImagePick, finalMes) {
 
 }
 
+//Button Color Changer
 var all_buttons = document.getElementsByTagName('button');
 var copyAllButtons = [];
 for (let i=0; i< all_buttons.length; i++){
@@ -147,4 +150,19 @@ function buttonColorRandom(){
     all_buttons[i].classList.add(choices[randomNum]);
 
   }
+}
+
+//Blackjack
+let blackjackGame = {
+  'you': {'socreSpan': '#player-hand', 'div': '#player-board', 'score':0},
+  'dealer': {'socreSpan': '#computer-hand', 'div': '#computer-board', 'score':0}
+};
+
+const YOU = blackjackGame{ 'you'};
+const DEALER = blackjackGame{'dealer'};
+
+document.querySelector('#bj-hit-btn').addEventListener('click', blackjackHit);
+
+function blackjackHit() {
+  alert('Aeh!');
 }
