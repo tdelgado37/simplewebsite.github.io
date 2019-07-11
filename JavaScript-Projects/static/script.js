@@ -158,8 +158,8 @@ let blackjackGame = {
   'dealer': {'socreSpan': '#computer-hand', 'div': '#computer-board', 'score':0}
 };
 
-const YOU = blackjackGame{ 'you'};
-const DEALER = blackjackGame{'dealer'};
+// const YOU = blackjackGame 'you'};
+// const DEALER = blackjackGame{'dealer'};
 
 document.querySelector('#bj-hit-btn').addEventListener('click', blackjackHit);
 
