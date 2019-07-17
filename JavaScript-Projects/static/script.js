@@ -154,15 +154,46 @@ function buttonColorRandom(){
 
 //Blackjack
 let blackjackGame = {
-  'you': {'socreSpan': '#player-hand', 'div': '#player-board', 'score':0},
-  'dealer': {'socreSpan': '#computer-hand', 'div': '#computer-board', 'score':0}
+  'you': {'scoreSpan': '#player-hand', 'div': '#player-board', 'score':0},
+  'dealer': {'socreSpan': '#computer-hand', 'div': '#computer-board', 'score':0},
+  'cards': ['2', '3','4','5','6','7','8','9','10','J','Q','K','A'],
 };
 
-// const YOU = blackjackGame 'you'};
-// const DEALER = blackjackGame{'dealer'};
+const YOU = blackjackGame['you'];
+const DEALER = blackjackGame['dealer'];
+
+const hitSound = new Audio('static/assets/sounds/swish.m4a');
+
 
 document.querySelector('#bj-hit-btn').addEventListener('click', blackjackHit);
+document.querySelector('#bj-deal-btn').addEventListener('click', blackjackDeal);
 
 function blackjackHit() {
-  alert('Aeh!');
+  let card = randomCard();
+  console.log(card);
+  showCard(card,DEALER);
+}
+
+function randomCard() {
+  let randomIndex = Math.floor(Math.random()*13);
+  return blackjackGame['cards'][randomIndex];
+}
+
+function showCard(card, activePlayer) {
+  let cardImage = document.createElement('img');
+  cardImage.src = `static/assets/images/${card}.png`;
+  document.querySelector(activePlayer['div']).appendChild(cardImage);
+  hitSound.play();
+}
+
+function blackjackDeal() {
+  let yourImages = document.querySelector('#player-board').querySelectorAll('img');
+  for(i=0;i<yourImages.length;i++){
+    yourImages[i].remove();
+  }
+
+  let computerImages = document.querySelector('#computer-board').querySelectorAll('img');
+  for(i=0;i<computerImages.length;i++){
+    computerImages[i].remove();
+  }
 }
