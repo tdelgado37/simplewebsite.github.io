@@ -155,8 +155,9 @@ function buttonColorRandom(){
 //Blackjack
 let blackjackGame = {
   'you': {'scoreSpan': '#player-hand', 'div': '#player-board', 'score':0},
-  'dealer': {'socreSpan': '#computer-hand', 'div': '#computer-board', 'score':0},
+  'dealer': {'scoreSpan': '#computer-hand', 'div': '#computer-board', 'score':0},
   'cards': ['2', '3','4','5','6','7','8','9','10','J','Q','K','A'],
+  'cardsMap':  {'2':2, '3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':10,'Q':10,'K':10,'A':[1,11]},
 };
 
 const YOU = blackjackGame['you'];
@@ -167,11 +168,14 @@ const hitSound = new Audio('static/assets/sounds/swish.m4a');
 
 document.querySelector('#bj-hit-btn').addEventListener('click', blackjackHit);
 document.querySelector('#bj-deal-btn').addEventListener('click', blackjackDeal);
+document.querySelector('#bj-stand-btn').addEventListener('click', dealerLogic);
 
 function blackjackHit() {
   let card = randomCard();
-  console.log(card);
-  showCard(card,DEALER);
+  showCard(card,YOU);
+  updateScore(card,YOU);
+  showScore(YOU);
+  console.log(YOU['score']);
 }
 
 function randomCard() {
@@ -180,10 +184,13 @@ function randomCard() {
 }
 
 function showCard(card, activePlayer) {
+  if (activePlayer['score'] <= 21){
   let cardImage = document.createElement('img');
   cardImage.src = `static/assets/images/${card}.png`;
   document.querySelector(activePlayer['div']).appendChild(cardImage);
   hitSound.play();
+}
+
 }
 
 function blackjackDeal() {
@@ -195,5 +202,57 @@ function blackjackDeal() {
   let computerImages = document.querySelector('#computer-board').querySelectorAll('img');
   for(i=0;i<computerImages.length;i++){
     computerImages[i].remove();
+  }
+
+  resetScore(YOU, DEALER);
+
+}
+function updateScore(card, activePlayer){
+  if (card == 'A') {
+    if (activePlayer['score'] + blackjackGame['cardsMap'][card][1] <= 21 ) {
+      activePlayer['score'] += blackjackGame['cardsMap'][card][1];
+    }else {
+      activePlayer['score'] += blackjackGame['cardsMap'][card][0];
+    }
+  }else {
+      activePlayer['score'] += blackjackGame['cardsMap'][card];
+  }
+
+
+}
+function showScore(activePlayer){
+  if(activePlayer['score'] > 21) {
+    document.querySelector(activePlayer['scoreSpan']).textContent = 'BUST!';
+    document.querySelector(activePlayer['scoreSpan']).style.color = 'red';
+  } else {
+  document.querySelector(activePlayer['scoreSpan']).textContent = activePlayer['score'];
+  }
+}
+function resetScore(player, dealer){
+    document.querySelector(player['scoreSpan']).textContent = 0;
+    document.querySelector(player['scoreSpan']).style.color = 'white';
+    player['score'] = 0;
+    document.querySelector(dealer['scoreSpan']).textContent = 0;
+    document.querySelector(dealer['scoreSpan']).style.color = 'white';
+    dealer['score'] = 0;
+}
+
+
+function dealerLogic(){
+  while(DEALER['score'] < 17) {
+  let card = randomCard();
+  showCard(card,DEALER);
+  updateScore(card,DEALER);
+  showScore(DEALER);
+  }
+}
+function computeWinner() {
+  let winner;
+
+  if (YOU['score'] <= 21) {
+    if(YOU['score'] > DEALER['score'] || DEALER['score'] > 21){
+      console.log('You Won!');
+      winner = YOU;
+    }
   }
 }
