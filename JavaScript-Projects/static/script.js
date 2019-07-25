@@ -164,7 +164,8 @@ const YOU = blackjackGame['you'];
 const DEALER = blackjackGame['dealer'];
 
 const hitSound = new Audio('static/assets/sounds/swish.m4a');
-
+const winSound = new Audio('static/assets/sounds/cash.mp3');
+const loseSound = new Audio('static/assets/sounds/aww.mp3');
 
 document.querySelector('#bj-hit-btn').addEventListener('click', blackjackHit);
 document.querySelector('#bj-deal-btn').addEventListener('click', blackjackDeal);
@@ -184,7 +185,7 @@ function randomCard() {
 }
 
 function showCard(card, activePlayer) {
-  if (activePlayer['score'] <= 21){
+  if (activePlayer['score'] <= 21) {
   let cardImage = document.createElement('img');
   cardImage.src = `static/assets/images/${card}.png`;
   document.querySelector(activePlayer['div']).appendChild(cardImage);
@@ -239,11 +240,12 @@ function resetScore(player, dealer){
 
 
 function dealerLogic(){
-  while(DEALER['score'] < 17) {
   let card = randomCard();
   showCard(card,DEALER);
   updateScore(card,DEALER);
   showScore(DEALER);
+  if (DEALER['score'] >= 17){
+    showResult(computeWinner());
   }
 }
 function computeWinner() {
@@ -253,6 +255,35 @@ function computeWinner() {
     if(YOU['score'] > DEALER['score'] || DEALER['score'] > 21){
       console.log('You Won!');
       winner = YOU;
+    } else if (YOU['score'] < DEALER['score']) {
+      console.log('You Lost!');
+      winner = DEALER;
+    } else if (YOU['score'] == DEALER['score']) {
+      console.log('You Tied!');
     }
+  } else {
+    console.log('You Lost!');
+    winner = DEALER;
   }
+  console.log('winner :'+winner);
+  return winner;
+}
+
+function showResult(winner){
+  let message, messageColor;
+
+  if(winner == YOU) {
+    message = "You Won!";
+    messageColor = 'green';
+    winSound.play();
+  } else if (winner == DEALER){
+    message = 'You Lost!';
+    messageColor = 'red';
+    loseSound.play();
+  } else{
+    message = 'You Tied!';
+    messageColor = 'black';
+  }
+  document.querySelector('#blackjack-result').textContent = message;
+  document.querySelector('#blackjack-result').style.color = messageColor;
 }
